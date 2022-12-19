@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record model="ir.module.category" id="employee_transfer_security">
+                 <field name="name">Employee Transfer</field>
+                 <field name="description">Access for Employee Transfer</field>
+                 <field name="sequence">10</field>
+    </record>
+    <record id="employee_transfer_user_access" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="employee_transfer_security" />
+    </record>
+    <record id="employee_transfer_manager_access" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="employee_transfer_security"/>
+    </record>
+</odoo>

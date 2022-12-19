@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="employee_transfer_menu_item_view_tree" model="ir.ui.view">
+        <field name="name">Employee Transfer.tree</field>
+        <field name="model">employee.transfer</field>
+        <field name="arch" type="xml">
+            <tree string="Transfer">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="company_id"/>
+                <field name="transfer_company_id"/>
+                <field name="request_date"/>
+                <field name="status"/>
+            </tree>
+        </field>
+        </record>
+        <record id="employee_transfer_menu_item_view_form" model="ir.ui.view">
+            <field name="name">Employee Transfer.form</field>
+            <field name="model">employee.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Transfer">
+                    <header>
+                        <button name="button_transfer_request" class="oe_highlight" string="Request to Transfer" type="object"
+                                help="Move to requested state"
+                                attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                        <button name="button_approve" groups="employee_transfer.employee_transfer_manager_access"
+                            class="oe_highlight" string="Approve" type="object"
+                            help="Move request to approved state"
+                            attrs="{'invisible': [('status', '!=', 'requested')]}"/>
+                        <button name="button_cancel" groups="employee_transfer.employee_transfer_manager_access"
+                            class="oe_highlight" string="Cancel" type="object"
+                            help="Move request to cancel state"
+                            attrs="{'invisible': [('status', '!=', 'requested')]}"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                            <group>
+                                <group>
+                                    <field name="employee_id"/>
+                                    <field name="transfer_company_id" options="{'no_create':True}"/>
+                                    <field name="request_date"/>
+                                </group>
+                                <group>
+                                    <field name="company_id"/>
+                                    <field name="responsible_id" attrs="{'readonly':[('id','>', 0)]}"/>
+                                </group>
+                            </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="employee_transfer_menu_action" model="ir.actions.act_window">
+            <field name="name">Transfer</field>
+            <field name="res_model">employee.transfer</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+<!--  menu-->
+         <menuitem id="transfer_menu" name="Employee Transfer" sequence="1"/>
+         <menuitem id="employee_transfer_menu_action_id" name="Transfer" parent="transfer_menu"
+                   action="employee_transfer_menu_action"  sequence="1"/>
+    </data>
+</odoo>
+
